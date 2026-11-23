@@ -1,7 +1,8 @@
-# Submission repo: track the app, nothing else.
+# Submission repo: track the app and its documentation, nothing else.
 #
 # Everything stays local — dataset frames, trained weights, sample video, run
 # outputs, the virtualenv, caches, and .env (which holds the API key).
 *
 !streamlit_app.py
+!README.md
 !.gitignore
