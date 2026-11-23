@@ -9,6 +9,8 @@ hosted on Roboflow. There is no local model, no GPU requirement, and no hand-wri
 geometry heuristic anywhere in the code.
 
 ---
+## APP Link
+https://footfall-cam-assessment.streamlit.app/
 ## Video Result
 <img width="480" height="360" alt="short_test_video_tagged" src="https://github.com/user-attachments/assets/3d587199-b105-49a1-992e-ba6c621c5fbd" />
 
