@@ -9,8 +9,8 @@ hosted on Roboflow. There is no local model, no GPU requirement, and no hand-wri
 geometry heuristic anywhere in the code.
 
 ---
-
-https://github.com/user-attachments/assets/3cb97d0b-8a61-4032-8702-1bc28dae0c5d
+## Video Result
+[https://github.com/user-attachments/assets/3cb97d0b-8a61-4032-8702-1bc28dae0c5d](https://github.com/user-attachments/assets/e401ae42-6277-4947-8509-13543c32a44f)](https://github.com/user-attachments/assets/e401ae42-6277-4947-8509-13543c32a44f)
 
 
 
