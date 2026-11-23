@@ -118,9 +118,9 @@ this particular clip:
 
 ## 7. Constraints and next steps
 
-- **Network dependency.** Inference is remote, so the app needs connectivity and an API key in
-  `.env`. The NAS model's weights cannot be downloaded, so there is no offline fallback. A
-  local YOLO checkpoint would be the safer option for a live demo.
+- **Network dependency.** Inference is remote, so the app needs connectivity and an API key
+  from `st.secrets` or `.env`. The NAS model's weights cannot be downloaded, so there is no
+  offline fallback. A local YOLO checkpoint would be the safer option for a live demo.
 - **No temporal tracking.** Frames are classified independently, so a single missed detection
   produces a one-frame flicker and there is no Kalman smoothing on the trajectory yet. The CSV
   already carries everything needed to add it.
@@ -131,9 +131,17 @@ this particular clip:
 
 ```bash
 pip install -r requirements.txt      # streamlit, opencv, inference-sdk
-# .env must contain: roboflow_api=<your key>
 .venv\Scripts\streamlit run streamlit_app.py
 ```
+
+The API key is read from whichever source is configured:
+
+- **`.streamlit/secrets.toml`**, or the Secrets panel on Streamlit Cloud —
+  `roboflow_api = "<key>"`, or a `[roboflow]` table holding `api_key = "<key>"`.
+- **`.env`** next to the app — `roboflow_api=<key>`.
+
+`st.secrets` takes precedence when both exist, so a cloud deployment never silently reads a
+local file.
 
 The interface has two controls — upload a video, press **Generate video** — and produces the
 annotated MP4 and CSV for download. Run settings are constants at the top of

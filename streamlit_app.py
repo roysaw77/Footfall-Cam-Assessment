@@ -16,6 +16,9 @@ Inference runs on Roboflow's serverless API (workspace `ge-rui`, workflow
   * no ultralytics / torch / GPU on this machine,
   * every frame sent is one billed serverless image,
   * the round trip is ~0.7 s per frame, so calls are parallelised (WORKERS).
+
+The API key is read from `st.secrets` when that is configured (Streamlit Cloud, or a
+local `.streamlit/secrets.toml`), falling back to `roboflow_api` in `.env`.
 """
 
 import csv
@@ -46,7 +49,38 @@ ENV_PATH = Path(".env")
 st.set_page_config(page_title="FootfallCam — staff tag detection", page_icon="🎯", layout="wide")
 
 
-# --------------------------------------------------------------------------- helpers
+# --------------------------------------------------------------------------- API key
+def secret_api_key() -> str:
+    """Read the key from st.secrets (Streamlit Cloud, or .streamlit/secrets.toml).
+
+    Accepts either a top-level entry or a [roboflow] table:
+
+        roboflow_api = "..."          # top level
+        [roboflow]                    # or
+        api_key = "..."
+    """
+    try:
+        secrets = st.secrets
+    except Exception:  # no secrets file configured at all
+        return ""
+    for name in ("roboflow_api", "roboflow_api_key", "ROBOFLOW_API_KEY"):
+        try:
+            if name in secrets:
+                value = str(secrets[name]).strip()
+                if value:
+                    return value
+        except Exception:
+            continue
+    try:
+        if "roboflow" in secrets:
+            value = str(secrets["roboflow"].get("api_key", "")).strip()
+            if value:
+                return value
+    except Exception:
+        pass
+    return ""
+
+
 def env_api_key() -> str:
     """Read roboflow_api from .env, if present."""
     try:
@@ -56,6 +90,11 @@ def env_api_key() -> str:
     except OSError:
         pass
     return ""
+
+
+def load_api_key() -> str:
+    """st.secrets wins when present, otherwise fall back to .env."""
+    return secret_api_key() or env_api_key()
 
 
 @st.cache_resource(show_spinner=False)
@@ -270,9 +309,10 @@ def main():
         st.info("Upload a video to begin.")
         st.stop()
 
-    api_key = env_api_key()
+    api_key = load_api_key()
     if not api_key:
-        st.error("No Roboflow API key found. Put `roboflow_api=...` in `.env` next to this app.")
+        st.error("No Roboflow API key found. Add `roboflow_api` to `.streamlit/secrets.toml` "
+                 "(or the app's Secrets in Streamlit Cloud), or to `.env` next to this app.")
         st.stop()
 
     left, right = st.columns([3, 2])
