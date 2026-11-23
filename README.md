@@ -50,7 +50,8 @@ workspace, with `staff` and `staff_tag` as the two classes.
 | Training preprocessing | none beyond auto-orient |
 | Augmentation | horizontal flip, probability 0.5, train split only |
 
-![Training recipe](docs/images/training-recipe.png)
+<img width="872" height="308" alt="Screenshot 2026-11-23 164825" src="https://github.com/user-attachments/assets/91109287-d11a-42dc-82ef-93fb4839fbaa" />
+
 
 Only horizontal flip was applied, and only to the train split. Horizontal mirroring is safe
 here because a person facing left and a person facing right are both valid observations;
@@ -58,7 +59,8 @@ vertical flip is not, since an upside-down person never appears under a ceiling-
 With no other preprocessing, the images reach the model at their original geometry and are
 resized to 640×640 inside the model.
 
-![RF-DETR training metrics](docs/images/training-metrics.png)
+<img width="1402" height="602" alt="Screenshot 2026-11-23 164806" src="https://github.com/user-attachments/assets/7225beae-3f19-49f3-a5ef-a2ff220caeaf" />
+
 
 Training converged quickly. mAP rose from about 61 % to about 91 % over 16 epochs, and
 mAP@50:95 from about 30 % to about 51 %. Most of the gain arrives in the first three epochs;
