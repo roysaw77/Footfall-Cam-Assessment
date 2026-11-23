@@ -11,6 +11,7 @@ geometry heuristic anywhere in the code.
 ---
 ## APP Link
 https://footfall-cam-assessment.streamlit.app/
+https://app.roboflow.com/ge-rui/staff-tag-detection-gfsse/
 ## Video Result
 <img width="480" height="360" alt="short_test_video_tagged" src="https://github.com/user-attachments/assets/3d587199-b105-49a1-992e-ba6c621c5fbd" />
 
