@@ -9,7 +9,7 @@ hosted on Roboflow. There is no local model, no GPU requirement, and no hand-wri
 geometry heuristic anywhere in the code.
 
 ---
-## Result Video (Flim Editing short video)
+
 https://github.com/user-attachments/assets/3cb97d0b-8a61-4032-8702-1bc28dae0c5d
 
 
