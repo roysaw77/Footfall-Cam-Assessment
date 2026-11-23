@@ -9,6 +9,12 @@ hosted on Roboflow. There is no local model, no GPU requirement, and no hand-wri
 geometry heuristic anywhere in the code.
 
 ---
+## Result Video (Flim Editing short video)
+
+
+https://github.com/user-attachments/assets/898e920e-e336-48f4-b274-141abae687fe
+
+
 
 ## 1. How staff are identified
 
@@ -26,31 +32,9 @@ region around a guess at where the chest is.
 
 ## 2. Pipeline
 
-```
-video file
-   │
-   ├─ decode frame (OpenCV), JPEG-encode at quality 92, base64
-   │
-   ├─ POST → Roboflow serverless workflow ................ 10 concurrent calls
-   │      ge-rui / staff-tag-detection-gfsse
-   │      RF-DETR NAS, classes: staff, staff_tag
-   │      parameter: confidence = 0.40
-   │
-   ├─ JSON predictions → per-frame classification
-   │      staff_present = any "staff" box
-   │      (x, y) = centre of the highest-confidence "staff" box
-   │
-   └─ two outputs: annotated MP4  +  per-frame CSV
-```
+<img width="1536" height="1024" alt="21c0c501-1bac-4aa8-847d-4d96ac431a90" src="https://github.com/user-attachments/assets/4151bccf-3aad-4453-bc2e-866d320399db" />
 
-Inference is stateless per frame, so frames are independent and can be dispatched to a thread
-pool without ordering constraints. The app runs in two passes: pass one performs all inference
-and keeps only the predictions (a few hundred bytes per frame); pass two re-reads the video and
-renders. Holding predictions rather than decoded frames keeps memory flat regardless of clip
-length.
 
-Calls are batched at `workers × 4` frames with three retries and exponential backoff (1 s → 10 s)
-so a rate-limit response degrades throughput instead of dropping frames.
 
 ## 3. Model training
 
